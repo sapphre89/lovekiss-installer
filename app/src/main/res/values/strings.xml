@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Love Kiss Installer</string>
-    <string name="title">Установщик Love Kiss</string>
-    <string name="subtitle">Три шага по порядку. Жми кнопки сверху вниз.</string>
+    <string name="app_title">Love Kiss</string>
 
-    <string name="step1_title">1. Установи Firefox</string>
-    <string name="step1_desc">Mozilla Firefox для Android — единственный мобильный браузер, в котором работает Tampermonkey.</string>
-    <string name="step1_btn">Установить Firefox</string>
+    <string name="btn_install">Установить</string>
+    <string name="btn_done">Готово</string>
 
-    <string name="step2_title">2. Установи Tampermonkey</string>
-    <string name="step2_desc">Откроется Firefox со страницей расширения. Нажми «Добавить в Firefox» и подтверди установку.</string>
-    <string name="step2_btn">Установить Tampermonkey</string>
+    <string name="s1_title">Устанавливаем Firefox</string>
+    <string name="s1_desc">Жми «Установить» — откроется Play Store. Подтверди установку и вернись сюда.</string>
 
-    <string name="step3_title">3. Установи Love Kiss</string>
-    <string name="step3_desc">Откроется сайт. Нажми «Установка» (или «Обновить») — Tampermonkey подхватит скрипт автоматически.</string>
-    <string name="step3_btn">Установить Love Kiss</string>
+    <string name="s2_title">Устанавливаем Tampermonkey</string>
+    <string name="s2_desc">Жми «Установить» — откроется Firefox. Нажми «Добавить в Firefox» и подтверди.</string>
+
+    <string name="s3_title">Устанавливаем Love Kiss</string>
+    <string name="s3_desc">Жми «Установить» — откроется сайт. Нажми «Установка», Tampermonkey подхватит скрипт.</string>
+
+    <string name="done_title">Готово! 🎉</string>
+    <string name="done_desc">Всё установлено. Открывай Kiss Me в Firefox и играй.</string>
 </resources>
