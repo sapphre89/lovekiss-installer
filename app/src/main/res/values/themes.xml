@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.LoveKissInstaller" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#E91E63</item>
+        <item name="colorPrimaryDark">#08132e</item>
+        <item name="colorAccent">#E91E63</item>
+        <item name="android:statusBarColor">#08132e</item>
+        <item name="android:windowBackground">#08132e</item>
+    </style>
+</resources>
