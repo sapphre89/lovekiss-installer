@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         private const val TAMPERMONKEY_URL =
             "https://addons.mozilla.org/ru/firefox/addon/tampermonkey/"
         private const val LOVEKISS_URL = "https://download.lovekiss.you/"
+        private const val INSPIN_URL = "https://inspin.me/"
         private const val FIREFOX_DIRECT_URL =
             "https://www.mozilla.org/ru/firefox/android/"
 
@@ -61,7 +62,7 @@ class MainActivity : AppCompatActivity() {
             1 -> setStep(R.string.s1_title, R.string.s1_desc, "1 / 3", R.string.btn_install, true)
             2 -> setStep(R.string.s2_title, R.string.s2_desc, "2 / 3", R.string.btn_install, true)
             3 -> setStep(R.string.s3_title, R.string.s3_desc, "3 / 3", R.string.btn_install, true)
-            else -> setStep(R.string.done_title, R.string.done_desc, "✓", R.string.btn_done, false)
+            else -> setStep(R.string.done_title, R.string.done_desc, "✓", R.string.btn_play, true)
         }
     }
 
@@ -82,6 +83,7 @@ class MainActivity : AppCompatActivity() {
             3 -> if (openInFirefox(LOVEKISS_URL)) {
                 prefs.edit().putBoolean(KEY_LK_OPENED, true).apply()
             }
+            else -> openInFirefox(INSPIN_URL, newTab = true)
         }
     }
 
@@ -107,13 +109,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun openInFirefox(url: String): Boolean {
+    private fun openInFirefox(url: String, newTab: Boolean = false): Boolean {
         if (!isPackageInstalled(FIREFOX_PKG)) {
             toast("Сначала установи Firefox")
             return false
         }
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
             setPackage(FIREFOX_PKG)
+            if (newTab) {
+                putExtra(Intent.EXTRA_OPEN_NEW_TAB, true)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
         }
         return try {
             startActivity(intent); true

@@ -5,6 +5,7 @@
 
     <string name="btn_install">Установить</string>
     <string name="btn_done">Готово</string>
+    <string name="btn_play">Открыть игру</string>
 
     <string name="s1_title">Устанавливаем Firefox</string>
     <string name="s1_desc">Жми «Установить» — откроется Play Store. Подтверди установку и вернись сюда.</string>
@@ -16,5 +17,5 @@
     <string name="s3_desc">Жми «Установить» — откроется сайт. Нажми «Установка», Tampermonkey подхватит скрипт.</string>
 
     <string name="done_title">Готово! 🎉</string>
-    <string name="done_desc">Всё установлено. Открывай Kiss Me в Firefox и играй.</string>
+    <string name="done_desc">Всё установлено. Жми «Открыть игру» — Kiss Me запустится в Firefox с подключённым скриптом. Старые вкладки (Tampermonkey, Love Kiss) можно смахнуть в Firefox вручную.</string>
 </resources>
