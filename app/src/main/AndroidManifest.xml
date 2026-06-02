@@ -3,6 +3,9 @@
 
     <queries>
         <package android:name="org.mozilla.firefox" />
+        <package android:name="com.yandex.browser" />
+        <package android:name="org.cromite.cromite" />
+        <package android:name="io.github.forkmaintainers.iceraven" />
         <package android:name="com.android.vending" />
         <intent>
             <action android:name="android.intent.action.VIEW" />
@@ -21,14 +24,21 @@
         android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.LoveKissInstaller">
+
         <activity
-            android:name=".MainActivity"
+            android:name=".PickerActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:parentActivityName=".PickerActivity" />
+
     </application>
 
 </manifest>

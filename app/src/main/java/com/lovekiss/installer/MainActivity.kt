@@ -5,8 +5,9 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.provider.Browser
+import android.provider.Browser as AndroidBrowser
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -14,35 +15,40 @@ import androidx.appcompat.app.AppCompatActivity
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        private const val FIREFOX_PKG = "org.mozilla.firefox"
-        private const val TAMPERMONKEY_URL =
-            "https://addons.mozilla.org/ru/firefox/addon/tampermonkey/"
+        const val EXTRA_BROWSER_ID = "browser_id"
         private const val LOVEKISS_URL = "https://download.lovekiss.you/"
         private const val INSPIN_URL = "https://inspin.me/"
-        private const val FIREFOX_DIRECT_URL =
-            "https://www.mozilla.org/ru/firefox/android/"
-
         private const val PREFS = "lovekiss_installer"
-        private const val KEY_TM_OPENED = "tampermonkey_opened"
-        private const val KEY_LK_OPENED = "lovekiss_opened"
     }
 
     private lateinit var prefs: SharedPreferences
+    private lateinit var browser: Browser
+    private lateinit var logoView: ImageView
+    private lateinit var browserName: TextView
     private lateinit var stepTitle: TextView
     private lateinit var stepDesc: TextView
     private lateinit var stepStatus: TextView
     private lateinit var installBtn: Button
 
+    private val keyTmOpened get() = "tm_opened_${browser.id}"
+    private val keyLkOpened get() = "lk_opened_${browser.id}"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        browser = Browser.byId(intent.getStringExtra(EXTRA_BROWSER_ID))
         prefs = getSharedPreferences(PREFS, MODE_PRIVATE)
+        logoView = findViewById(R.id.iv_browser_logo)
+        browserName = findViewById(R.id.tv_browser_name)
         stepTitle = findViewById(R.id.tv_step_title)
         stepDesc = findViewById(R.id.tv_step_desc)
         stepStatus = findViewById(R.id.tv_step_status)
         installBtn = findViewById(R.id.btn_install)
 
+        logoView.setImageResource(browser.logoRes)
+        browserName.text = browser.displayName
+        findViewById<ImageView>(R.id.btn_back).setOnClickListener { finish() }
         installBtn.setOnClickListener { runCurrentStep() }
     }
 
@@ -52,24 +58,32 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun currentStep(): Int = when {
-        !isPackageInstalled(FIREFOX_PKG) -> 1
-        !prefs.getBoolean(KEY_TM_OPENED, false) -> 2
-        !prefs.getBoolean(KEY_LK_OPENED, false) -> 3
+        !isPackageInstalled(browser.packageName) -> 1
+        !prefs.getBoolean(keyTmOpened, false) -> 2
+        !prefs.getBoolean(keyLkOpened, false) -> 3
         else -> 4
     }
 
     private fun refreshUi() {
         when (currentStep()) {
-            1 -> setStep(R.string.s1_title, R.string.s1_desc, "1 / 3", R.string.btn_install, true)
-            2 -> setStep(R.string.s2_title, R.string.s2_desc, "2 / 3", R.string.btn_install, true)
-            3 -> setStep(R.string.s3_title, R.string.s3_desc, "3 / 3", R.string.btn_install, true)
-            else -> setStep(R.string.done_title, R.string.done_desc, "✓", R.string.btn_play, true)
+            1 -> setStep(getString(R.string.s1_title, browser.displayName),
+                getString(R.string.s1_desc, browser.displayName),
+                "1 / 3", R.string.btn_install, true)
+            2 -> setStep(getString(R.string.s2_title),
+                getString(R.string.s2_desc, browser.displayName),
+                "2 / 3", R.string.btn_install, true)
+            3 -> setStep(getString(R.string.s3_title),
+                getString(R.string.s3_desc),
+                "3 / 3", R.string.btn_install, true)
+            else -> setStep(getString(R.string.done_title),
+                getString(R.string.done_desc),
+                "✓", R.string.btn_play, true)
         }
     }
 
-    private fun setStep(title: Int, desc: Int, status: String, btn: Int, enabled: Boolean) {
-        stepTitle.setText(title)
-        stepDesc.setText(desc)
+    private fun setStep(title: String, desc: String, status: String, btn: Int, enabled: Boolean) {
+        stepTitle.text = title
+        stepDesc.text = desc
         stepStatus.text = status
         installBtn.setText(btn)
         installBtn.isEnabled = enabled
@@ -77,55 +91,60 @@ class MainActivity : AppCompatActivity() {
 
     private fun runCurrentStep() {
         when (currentStep()) {
-            1 -> installFirefox()
-            2 -> if (openInFirefox(TAMPERMONKEY_URL)) {
-                prefs.edit().putBoolean(KEY_TM_OPENED, true).apply()
+            1 -> installBrowser()
+            2 -> if (openInBrowser(browser.tampermonkeyUrl)) {
+                prefs.edit().putBoolean(keyTmOpened, true).apply()
             }
-            3 -> if (openInFirefox(LOVEKISS_URL)) {
-                prefs.edit().putBoolean(KEY_LK_OPENED, true).apply()
+            3 -> if (openInBrowser(LOVEKISS_URL)) {
+                prefs.edit().putBoolean(keyLkOpened, true).apply()
             }
-            else -> openInFirefox(INSPIN_URL, newTab = true)
+            else -> openInBrowser(INSPIN_URL, newTab = true)
         }
     }
 
-    private fun installFirefox() {
-        val market = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$FIREFOX_PKG"))
-        try {
-            startActivity(market); return
-        } catch (_: ActivityNotFoundException) {
+    private fun installBrowser() {
+        if (browser.hasPlayStore) {
+            val market = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("market://details?id=${browser.packageName}")
+            )
+            try {
+                startActivity(market); return
+            } catch (_: ActivityNotFoundException) {
+            }
+            val web = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://play.google.com/store/apps/details?id=${browser.packageName}")
+            )
+            try {
+                startActivity(web); return
+            } catch (_: ActivityNotFoundException) {
+            }
         }
-        val web = Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse("https://play.google.com/store/apps/details?id=$FIREFOX_PKG")
-        )
-        try {
-            startActivity(web); return
-        } catch (_: ActivityNotFoundException) {
-        }
-        val direct = Intent(Intent.ACTION_VIEW, Uri.parse(FIREFOX_DIRECT_URL))
+        val direct = Intent(Intent.ACTION_VIEW, Uri.parse(browser.installFallbackUrl))
         try {
             startActivity(direct)
         } catch (_: ActivityNotFoundException) {
-            toast("Скачай Firefox с mozilla.org вручную")
+            toast("Не удалось открыть страницу установки. Ссылка: ${browser.installFallbackUrl}")
         }
     }
 
-    private fun openInFirefox(url: String, newTab: Boolean = false): Boolean {
-        if (!isPackageInstalled(FIREFOX_PKG)) {
-            toast("Сначала установи Firefox")
+    private fun openInBrowser(url: String, newTab: Boolean = false): Boolean {
+        if (!isPackageInstalled(browser.packageName)) {
+            toast("Сначала установи ${browser.displayName}")
             return false
         }
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
-            setPackage(FIREFOX_PKG)
+            setPackage(browser.packageName)
             if (newTab) {
-                putExtra(Browser.EXTRA_CREATE_NEW_TAB, true)
+                putExtra(AndroidBrowser.EXTRA_CREATE_NEW_TAB, true)
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
         }
         return try {
             startActivity(intent); true
         } catch (_: ActivityNotFoundException) {
-            toast("Не удалось открыть Firefox"); false
+            toast("Не удалось открыть ${browser.displayName}"); false
         }
     }
 

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Love Kiss — Мокап экрана выбора браузера</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1a3e 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    padding: 40px 20px;
+    gap: 20px;
+  }
+  .label {
+    color: #aab;
+    text-align: center;
+    font-size: 14px;
+    max-width: 500px;
+  }
+  .label strong { color: #FFD600; }
+  .phone {
+    width: 380px;
+    height: 780px;
+    background: #08132e;
+    border-radius: 44px;
+    border: 14px solid #0a0a18;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.6), inset 0 0 0 2px #2a2a4e;
+    padding: 36px 22px 28px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+  .notch {
+    position: absolute;
+    top: 14px; left: 50%;
+    transform: translateX(-50%);
+    width: 140px; height: 24px;
+    background: #0a0a18;
+    border-radius: 0 0 18px 18px;
+  }
+  .duck {
+    width: 108px; height: 108px;
+    margin: 16px 0 10px;
+    border-radius: 24px;
+    overflow: hidden;
+  }
+  .app-title {
+    color: #fff; font-size: 28px; font-weight: 800; margin: 0;
+    letter-spacing: 0.3px;
+  }
+  .subtitle {
+    color: #FFD600; font-size: 14px; font-weight: 700;
+    margin: 6px 0 22px 0;
+    text-transform: uppercase; letter-spacing: 1.2px;
+  }
+  .browsers {
+    width: 100%;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .card {
+    display: flex; align-items: center;
+    background: #11203f;
+    border: 1.5px solid #1f3160;
+    border-radius: 16px;
+    padding: 13px 14px;
+    transition: all 0.15s;
+  }
+  .card:hover { border-color: #FFD600; background: #142546; }
+  .card .logo {
+    width: 44px; height: 44px;
+    margin-right: 14px; flex-shrink: 0;
+    border-radius: 10px; overflow: hidden;
+    background: white;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .card .logo svg { width: 100%; height: 100%; }
+  .card .info { flex: 1; min-width: 0; }
+  .card .name {
+    color: white; font-size: 15px; font-weight: 700;
+    margin: 0 0 2px 0;
+  }
+  .card .desc {
+    color: #8a9bc4; font-size: 11.5px; margin: 0;
+    line-height: 1.3;
+  }
+  .card .chevron {
+    color: #FFD600; font-size: 22px; font-weight: 600;
+    margin-left: 8px;
+  }
+  .footer-hint {
+    margin-top: 14px;
+    color: #5d6a8a; font-size: 11px;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .cromite-bg { background: #1565C0; }
+  .iceraven-bg { background: #ffffff; }
+  .yandex-bg { background: #ffffff; }
+</style>
+</head>
+<body>
+
+<div class="label">
+  <strong>Мокап экрана выбора браузера</strong> · Love Kiss Installer<br>
+  Это первый экран после запуска апки. Тап по карточке → мастер установки для выбранного браузера (как сейчас, с одной кнопкой «Установить»).
+</div>
+
+<div class="phone">
+  <div class="notch"></div>
+
+  <!-- Duck icon (same as APK) -->
+  <svg class="duck" viewBox="0 0 108 108">
+    <path fill="#87CEEB" d="M0,0h108v108h-108z"/>
+    <path fill="#FFE680" d="M14,72 Q24,68 36,72 Q48,76 60,72 Q72,68 84,72 Q96,76 108,72 L108,108 L0,108 L0,72 Q7,70 14,72 Z"/>
+    <path fill="#FFCC4D" d="M0,80 Q10,77 22,80 Q35,83 48,80 Q60,77 72,80 Q86,83 100,80 Q104,80 108,80 L108,108 L0,108 Z"/>
+    <ellipse cx="54" cy="72" rx="30" ry="18" fill="#FFD600"/>
+    <circle cx="48" cy="40" r="20" fill="#FFD600"/>
+    <path fill="#F0B800" d="M54,80 C66,74 78,74 82,82 C78,86 70,86 60,84 C56,84 54,82 54,80 Z"/>
+    <path fill="#FF8F00" d="M66,38 L94,42 L92,52 L66,50 Z"/>
+    <path fill="#E65100" d="M66,45 L94,46 L94,47 L66,46 Z"/>
+    <circle cx="50" cy="36" r="8" fill="#FFFFFF"/>
+    <circle cx="52" cy="36" r="4.5" fill="#222"/>
+    <circle cx="53.5" cy="34.5" r="1.7" fill="#FFF"/>
+    <ellipse cx="40" cy="48" rx="4" ry="3" fill="#FF6B8A" opacity="0.6"/>
+    <path fill="#FFC107" d="M62,68 Q72,64 80,72 Q78,80 68,80 Q60,78 62,68 Z"/>
+  </svg>
+
+  <h1 class="app-title">Love Kiss</h1>
+  <div class="subtitle">Выбери браузер</div>
+
+  <div class="browsers">
+
+    <!-- Firefox -->
+    <div class="card">
+      <div class="logo">
+        <svg viewBox="0 0 64 64">
+          <defs>
+            <radialGradient id="ff-grad" cx="35%" cy="35%" r="65%">
+              <stop offset="0%" stop-color="#FFEC00"/>
+              <stop offset="40%" stop-color="#FF9500"/>
+              <stop offset="100%" stop-color="#E2001A"/>
+            </radialGradient>
+          </defs>
+          <circle cx="32" cy="32" r="30" fill="#2052b8"/>
+          <path d="M14,18 C18,10 28,8 36,12 C44,16 50,24 50,34 C50,46 40,54 30,54 C18,54 10,44 12,32 C13,26 16,22 22,20 C20,28 26,34 32,32 C28,28 30,22 36,22 C40,22 44,26 44,32 C44,40 38,44 32,44 C22,44 16,36 16,28 C16,24 18,22 14,18 Z" fill="url(#ff-grad)"/>
+        </svg>
+      </div>
+      <div class="info">
+        <p class="name">Firefox</p>
+        <p class="desc">Mozilla — установка из Google Play</p>
+      </div>
+      <span class="chevron">›</span>
+    </div>
+
+    <!-- Yandex Browser -->
+    <div class="card">
+      <div class="logo yandex-bg">
+        <svg viewBox="0 0 64 64">
+          <circle cx="32" cy="32" r="30" fill="#FC3F1D"/>
+          <text x="32" y="46" text-anchor="middle" fill="white" font-size="38" font-weight="900" font-family="Arial, sans-serif">Я</text>
+        </svg>
+      </div>
+      <div class="info">
+        <p class="name">Яндекс.Браузер</p>
+        <p class="desc">Самый популярный в РФ · Chrome Web Store</p>
+      </div>
+      <span class="chevron">›</span>
+    </div>
+
+    <!-- Cromite -->
+    <div class="card">
+      <div class="logo cromite-bg">
+        <svg viewBox="0 0 64 64">
+          <rect width="64" height="64" rx="14" fill="#1565C0"/>
+          <circle cx="32" cy="32" r="18" fill="none" stroke="#fff" stroke-width="3"/>
+          <circle cx="32" cy="32" r="6" fill="#FFD600"/>
+          <path d="M32,14 L32,50 M14,32 L50,32" stroke="#fff" stroke-width="2" opacity="0.6"/>
+        </svg>
+      </div>
+      <div class="info">
+        <p class="name">Cromite</p>
+        <p class="desc">Privacy Chromium · ставится с GitHub</p>
+      </div>
+      <span class="chevron">›</span>
+    </div>
+
+    <!-- Iceraven -->
+    <div class="card">
+      <div class="logo iceraven-bg">
+        <svg viewBox="0 0 64 64">
+          <circle cx="32" cy="32" r="30" fill="#0E1F3F"/>
+          <path d="M18,28 C18,18 26,12 32,12 C38,12 46,18 46,28 C46,40 38,48 32,50 C26,48 18,40 18,28 Z" fill="#4FC3F7"/>
+          <path d="M20,22 L14,16 L18,28 Z" fill="#4FC3F7"/>
+          <path d="M44,22 L50,16 L46,28 Z" fill="#4FC3F7"/>
+          <ellipse cx="26" cy="30" rx="2.5" ry="3" fill="#0E1F3F"/>
+          <ellipse cx="38" cy="30" rx="2.5" ry="3" fill="#0E1F3F"/>
+          <path d="M28,38 Q32,42 36,38" stroke="#0E1F3F" stroke-width="1.5" fill="none"/>
+          <circle cx="32" cy="35" r="1.5" fill="#0E1F3F"/>
+        </svg>
+      </div>
+      <div class="info">
+        <p class="name">Iceraven</p>
+        <p class="desc">Firefox-fork · все расширения AMO · GitHub</p>
+      </div>
+      <span class="chevron">›</span>
+    </div>
+
+  </div>
+
+  <div class="footer-hint">Тап → мастер установки выбранного браузера</div>
+</div>
+
+<div class="label" style="max-width:420px;">
+  Лого Firefox и Яндекса — стилизация близкая к оригиналу (реальные SVG из интернета не скачались). Cromite/Iceraven — мои упрощённые иконки (у них нет общепризнанного лого). <br>
+  Если ок — собираю APK. Если хочешь поправить (цвета, порядок, описания, размер карточек) — скажи.
+</div>
+
+</body>
+</html>
